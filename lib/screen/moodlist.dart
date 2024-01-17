@@ -19,7 +19,7 @@ class _MoodListState extends State<MoodList> {
     return Scaffold(
       backgroundColor: Colors.lightGreen[100],
       appBar: AppBar(
-        backgroundColor: Colors.lightGreen[200],
+        backgroundColor: Colors.lightGreen[100],
         title: const Center(
           child: Text(
             'Mood List',

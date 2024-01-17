@@ -24,8 +24,8 @@ class ChatUser {
   });
 
   ChatUser.fromEducatorModel(EducatorModel educator) {
-    image = educator.educatorProfilePicture;
-    name = educator.educatorName;
+    image = '';
+    name = '';
     createdAt = '';
     isOnline = false;
     id = '';
@@ -36,8 +36,8 @@ class ChatUser {
   }
 
   ChatUser.fromJson(Map<String, dynamic> json) {
-    image = json['image'] ?? '';
-    name = json['name'] ?? '';
+    image = json['photoURL'] ?? '';
+    name = json['displayName'] ?? '';
     createdAt = json['created_at'] ?? '';
     isOnline = json['is_online'] ?? '';
     id = json['id'] ?? '';
@@ -49,8 +49,8 @@ class ChatUser {
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
-    data['image'] = image;
-    data['name'] = name;
+    data['photoURL'] = image;
+    data['displayName'] = name;
     data['created_at'] = createdAt;
     data['is_online'] = isOnline;
     data['id'] = id;

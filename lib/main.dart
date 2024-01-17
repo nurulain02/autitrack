@@ -26,16 +26,34 @@ void main() async {
     androidProvider: AndroidProvider.playIntegrity,
   );
 
+  // Get the current user ID
+  String? currentUserId = await getCurrentUserId();
 
-  runApp(MyApp());
+  runApp(MyApp(currentUserId: currentUserId));
 }
+
+Future<String?> getCurrentUserId() async {
+  // Check if a user is already signed in
+  User? user = FirebaseAuth.instance.currentUser;
+
+  if (user != null) {
+    // If a user is signed in, return the UID
+    return user.uid;
+  } else {
+    // If no user is signed in, you can handle this case as needed
+    // For example, you can sign in the user or return null
+    // depending on your application's logic.
+    return null;
+  }
+}
+
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
+  final String? currentUserId;
+
+  MyApp({required this.currentUserId, super.key});
 
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -46,15 +64,14 @@ class MyApp extends StatelessWidget {
       ),
       home: HomePage(),
       routes: {
-        '/mainScreen': (context) => MainScreen(currentUserId: ''),
-        '/mainScreenEdu': (context) => MainScreenEdu(currentUserId: ''),
-        '/feedEdu': (context) => MainFeedPageEdu(currentUserId: ''),
-        '/feedParent': (context) => MainFeedPageParent(currentUserId: ''),
-        '/message': (context) => HomeScreen(  currentUserId: '',),
-        '/messages': (context) => HomeScreenEdu(currentUserId: ''),
+        '/mainScreen': (context) => MainScreen(currentUserId: currentUserId),
+        '/mainScreenEdu': (context) => MainScreenEdu(currentUserId: currentUserId),
+        '/feedEdu': (context) => MainFeedPageEdu(currentUserId: currentUserId),
+        '/feedParent': (context) => MainFeedPageParent(currentUserId: currentUserId),
+        '/message': (context) => HomeScreen(currentUserId: currentUserId),
+        '/messages': (context) => HomeScreenEdu(currentUserId: currentUserId),
         '/graph': (context) => ThingSpeakGraph(),
-        '/activity': (context) => MoodPage(currentUserId: ''),
-
+        '/activity': (context) => MoodPage(currentUserId: currentUserId),
         // Add other routes as needed
       },
     );

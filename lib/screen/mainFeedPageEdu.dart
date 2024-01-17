@@ -7,6 +7,7 @@ import '../model/feedModel.dart';
 import '../services/databaseServices.dart';
 import '../widget/feedContainerPersonalPage.dart';
 import '../widget/userDetailsContainer.dart';
+import 'educatorProfilePage.dart';
 
 
 class MainFeedPageEdu extends StatefulWidget {
@@ -131,6 +132,22 @@ class _MainFeedPageEduState extends State<MainFeedPageEdu> {
             color: Colors.black,
           ),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.person),
+            onPressed: () {
+              // Navigate to the parent profile page
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EducatorProfilePage(
+                    userId: widget.currentUserId, currentUserId: '',
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -249,6 +266,9 @@ class _MainFeedPageEduState extends State<MainFeedPageEdu> {
             Navigator.pushReplacementNamed(context, '/messages');
           }  else if (index == 0) {
             Navigator.pushReplacementNamed(context, '/mainScreenEdu');
+          }
+          else if (index == 2) {
+            Navigator.pushReplacementNamed(context, '/feedEdu');
           }
         },
       ),

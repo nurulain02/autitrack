@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:workshop_2/model/parentModel.dart';
 import 'package:workshop_2/screen/addFeedPage.dart';
+import 'package:workshop_2/screen/parentProfilePage.dart';
 import '../bottomNavigationMenu.dart';
 import '../constants/constants.dart';
 import '../model/feedModel.dart';
@@ -109,7 +110,7 @@ class _MainFeedPageParentState extends State<MainFeedPageParent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green[50],
+      backgroundColor: Colors.lightGreen[100],
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.white,
         onPressed: () {
@@ -124,7 +125,7 @@ class _MainFeedPageParentState extends State<MainFeedPageParent> {
 
       ),
       appBar: AppBar(
-        backgroundColor: AutiTrackColor2,
+        backgroundColor: Colors.lightGreen[200],
         elevation: 0.5,
         centerTitle: true,
         leading: Container(
@@ -136,6 +137,22 @@ class _MainFeedPageParentState extends State<MainFeedPageParent> {
             color: Colors.black,
           ),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.person),
+            onPressed: () {
+              // Navigate to the parent profile page
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ParentProfilePage(
+                    userId: widget.currentUserId, currentUserId: '',
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,7 +163,7 @@ class _MainFeedPageParentState extends State<MainFeedPageParent> {
               child: Container(
                 padding: const EdgeInsets.all(20.0),
                 decoration: BoxDecoration(
-                  color: AutiTrackColor2,
+                  color: Colors.lightGreen[200],
                   borderRadius: BorderRadius.circular(15.0),
                   boxShadow: [
                     BoxShadow(
@@ -258,6 +275,8 @@ class _MainFeedPageParentState extends State<MainFeedPageParent> {
             Navigator.pushReplacementNamed(context, '/activity');
           } else if (index == 0) {
             Navigator.pushReplacementNamed(context, '/mainScreen');
+          }else if (index == 4) {
+            Navigator.pushReplacementNamed(context, '/feedParent');
           }
         },
       ),

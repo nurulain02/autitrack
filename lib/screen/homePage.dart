@@ -11,12 +11,12 @@ class HomePage extends StatelessWidget {
 
 
     return Scaffold(
-      backgroundColor: Colors.green[100],
+      backgroundColor: Colors.lightGreen[100],
       appBar: AppBar(
         centerTitle: true,
         title: Text('AUTITRACK',
           style: TextStyle(color: Colors.black)),
-        backgroundColor: AutiTrackColor2,),
+        backgroundColor: Colors.lightGreen[200],),
 
 
         body: Center(

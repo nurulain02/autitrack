@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../bottomNavigationMenu.dart';
 import '../bottomNavigationMenuEdu.dart';
 import '../constants/constants.dart';
 import 'apis.dart';
@@ -36,7 +35,7 @@ class _HomeScreenEduState extends State<HomeScreenEdu> {
   @override
   void initState() {
     super.initState();
-    APIs.getSelfInfo(widget.currentUserId);
+    APIs.getSelfInfo();
     SystemChannels.lifecycle.setMessageHandler((message) {
       log('Message: $message');
       if (APIs.auth.currentUser != null) {

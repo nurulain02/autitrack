@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:http/http.dart';
+import 'package:workshop_2/services/databaseServices.dart';
 
 import '../model/educatorModel.dart';
 import 'chat_user.dart';
@@ -139,8 +140,8 @@ class APIs {
   }
 
   // for getting current user info
-  static Future<void> getSelfInfo(String? userId) async {
-    await firestore.collection('users').doc(userId).get().then((user) async {
+  static Future<void> getSelfInfo() async {
+    await firestore.collection('users').doc(user.uid).get().then((user) async {
       if (user.exists) {
         me = ChatUser.fromJson(user.data()!);
         await getFirebaseMessagingToken();
@@ -149,13 +150,13 @@ class APIs {
         APIs.updateActiveStatus(true);
         log('My Data: ${user.data()}');
       } else {
-        await createUser().then((value) => getSelfInfo(userId));
+        await createUser().then((value) => getSelfInfo());
       }
     });
   }
 
   // for creating a new user
-  static Future<void> createUser(String? userId) async {
+  static Future<void> createUser() async {
     final time = DateTime.now().millisecondsSinceEpoch.toString();
 
     final chatUser = ChatUser(

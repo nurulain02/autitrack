@@ -21,7 +21,7 @@ class CategoryPage extends StatelessWidget {
       backgroundColor: Colors.lightGreen[100],
       appBar: AppBar(
         backgroundColor: Colors.lightGreen[100],
-        title: Center(child: Text('Autism Mood', style: TextStyle(fontSize: 32, color: Colors.white))),
+        title: Center(child: Text('Autism Mood', style: TextStyle(fontSize: 32, color: Colors.black))),
         actions: [
           IconButton(
             icon: Icon(Icons.list_alt_outlined),

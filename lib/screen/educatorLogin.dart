@@ -47,7 +47,7 @@ class _EducatorLogin extends State<EducatorLogin> {
       backgroundColor: Colors.lightGreen[100],
 
       appBar: AppBar(
-          backgroundColor: (Colors.lightGreen[100])),
+          backgroundColor: (Colors.lightGreen[200])),
       body: Center(
         child: SingleChildScrollView(
           child: Column(

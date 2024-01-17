@@ -158,7 +158,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return InkWell(
         onTap: () {},
         child: StreamBuilder(
-            stream: APIs.getUserInfo(widget.user),
+            stream: APIs. getUserInfo(widget.user),
             builder: (context, snapshot) {
               final data = snapshot.data?.docs;
               final list =

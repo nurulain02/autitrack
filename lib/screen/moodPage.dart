@@ -10,7 +10,7 @@ import '../Tab/Sad_Tab.dart';
 
 
 class MoodPage extends StatefulWidget {
-  final String currentUserId;
+  final String? currentUserId;
 
 
   const MoodPage({required this.currentUserId});
@@ -48,7 +48,7 @@ class _MoodPageState extends State<MoodPage> {
           title: Center(
             child: Text(
               'Autism Mood',
-              style: TextStyle(fontSize: 32, color: Colors.white),
+              style: TextStyle(fontSize: 32, color: Colors.black),
             ),
           ),
         ),

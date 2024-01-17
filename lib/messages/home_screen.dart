@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _fetchEducatorsList();
-    APIs.getSelfInfo(widget.currentUserId);
+    APIs.getSelfInfo();
     SystemChannels.lifecycle.setMessageHandler((message) {
       log('Message: $message');
       if (APIs.auth.currentUser != null) {
@@ -149,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Padding(
                         padding: const EdgeInsets.all(15.0),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center, // Use MainAxisAlignment.center to vertically center the content
+                          mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             CircleAvatar(
@@ -158,7 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               radius: 30,
                             ),
-                            SizedBox(height: 2), // Add spacing between CircleAvatar and Text if needed
+                            SizedBox(height: 2),
                             Text(
                               _educatorsList[index].educatorName,
                               textAlign: TextAlign.center,
@@ -166,111 +166,123 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                       ),
-
-
                     );
                   },
                 ),
               ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: StreamBuilder(
-                stream: APIs.getMyUsersId(),
-                builder: (context, snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.waiting:
-                    case ConnectionState.none:
-                      return const Center(child: CircularProgressIndicator());
-                    case ConnectionState.active:
-                    case ConnectionState.done:
-                      return StreamBuilder(
-                        stream: APIs.getAllUsers(
-                          snapshot.data?.docs.map((e) => e.id).toList() ?? [],
+
+              Expanded(
+                child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount: _educatorsList.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        _navigateToChatScreen(_educatorsList[index]);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Container(
+                          height: 100.0, // Set your desired height
+                          child: Card(
+                            elevation: 2.0,
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                  _educatorsList[index].educatorProfilePicture ?? "",
+                                ),
+                                radius: 30,
+                              ),
+                              title: Text(
+                                _educatorsList[index].educatorName,
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+
+                              onTap: () {
+                                _navigateToChatScreen(_educatorsList[index]);
+                              },
+                            ),
+                          ),
                         ),
-                        builder: (context, snapshot) {
-                          switch (snapshot.connectionState) {
-                            case ConnectionState.waiting:
-                            case ConnectionState.none:
-                              return const Center(child: CircularProgressIndicator());
-                            case ConnectionState.active:
-                            case ConnectionState.done:
-                              if (mq == null) {
-                                mq = MediaQuery.of(context).size;
-                              }
-                              final data = snapshot.data?.docs;
-                              _list = data
-                                  ?.map((e) => ChatUser.fromJson(e.data()))
-                                  .toList() ??
-                                  [];
-
-                             /* if (_list.isNotEmpty) {
-                                return ListView.builder(
-                                  itemCount: _isSearching
-                                      ? _searchList.length
-                                      : _list.length,
-                                  padding: EdgeInsets.only(top: mq?.height ?? 0.01),
-                                  physics: const BouncingScrollPhysics(),
-                                  itemBuilder: (context, index) {
-                                    final user = _isSearching ? _searchList[index] : _list[index];
-
-                                    // Check if the user has a last message
-                                    final hasLastMessage =
-                                        user.lastMessage != null && user.lastMessage.isNotEmpty;
-
-                                    // Check if the current user is chatting with this user
-                                    final isChattingWithCurrentUser = user.id == APIs.auth.currentUser?.uid;
-
-                                    return GestureDetector(
-                                      onTap: () {
-                                        _navigateToChatScreen(user as EducatorModel);
-                                      },
-                                      child: ChatUserCard(
-                                        user: user,
-                                        // Display name and image only if the current user is chatting with this user and there is a last message
-                                        showNameAndImage: hasLastMessage && isChattingWithCurrentUser,
-                                      ),
-                                    );
-                                  },
-                                );
-                              } else {
-                                return const Center(
-                                  child: Text(
-                                    'No Message !',
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                );
-                              }*/
-                              if (_list.isNotEmpty) {
-                                return ListView.builder(
-                                  itemCount: _isSearching
-                                      ? _searchList.length
-                                      : _list.length,
-                                  padding: EdgeInsets.only(top: mq!.height * .01),
-                                  physics: const BouncingScrollPhysics(),
-                                  itemBuilder: (context, index) {
-                                    return ChatUserCard(
-                                        user: _isSearching
-                                            ? _searchList[index]
-                                            : _list[index]);
-                                  },
-                                );
-                              } else {
-                                return const Center(
-                                  child: Text('No Message !',
-                                      style: TextStyle(fontSize: 20)),
-                                );
-                              }
-                          }
-                        },
-                      );
-                  }
-                },
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
+
+              Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: StreamBuilder(
+                      stream: APIs.getMyUsersId(),
+                      builder: (context, snapshot) {
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.waiting:
+                          case ConnectionState.none:
+                            return const Center(child: CircularProgressIndicator());
+                          case ConnectionState.active:
+                          case ConnectionState.done:
+                            return StreamBuilder(
+                              stream: APIs.getAllUsers(
+                                snapshot.data?.docs.map((e) => e.id).toList() ?? [],
+                              ),
+                              builder: (context, snapshot) {
+                                switch (snapshot.connectionState) {
+                                  case ConnectionState.waiting:
+                                  case ConnectionState.none:
+                                    return const Center(child: CircularProgressIndicator());
+                                  case ConnectionState.active:
+                                  case ConnectionState.done:
+                                    if (mq == null) {
+                                      mq = MediaQuery.of(context).size;
+                                    }
+                                    final data = snapshot.data?.docs;
+                                    _list = data
+                                        ?.map((e) => ChatUser.fromJson(e.data()))
+                                        .toList() ??
+                                        [];
+                                    if (_list.isNotEmpty) {
+                                      return ListView.builder(
+                                        itemCount: _isSearching
+                                            ? _searchList.length
+                                            : _list.length,
+                                        padding: EdgeInsets.only(top: mq?.height ?? 0.01),
+                                        physics: const BouncingScrollPhysics(),
+                                        itemBuilder: (context, index) {
+                                          final user = _isSearching ? _searchList[index] : _list[index];
+
+                                          final hasLastMessage = user.lastMessage != null && user.lastMessage.isNotEmpty;
+                                          final isChattingWithCurrentUser = user.id == APIs.auth.currentUser?.uid;
+
+                                          return GestureDetector(
+                                            onTap: () {
+                                              _navigateToChatScreen(user as EducatorModel);
+                                            },
+                                            child: ChatUserCard(
+                                              user: user,
+                                              showNameAndImage: hasLastMessage && isChattingWithCurrentUser,
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    } else {
+                                      return const Center(
+                                        child: Text(
+                                          '',
+                                          style: TextStyle(fontSize: 20),
+                                        ),
+                                      );
+                                    }
+                                }
+                              },
+                            );
+                        }
+                      },
+                    ),
+                  ),
+                ),
+            ],
           ),
-          ]
-        ),
           bottomNavigationBar: BottomNavigationMenu(
             selectedIndex: 1,
             onItemTapped: (index) {
@@ -317,7 +329,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 }
-
 
 
 

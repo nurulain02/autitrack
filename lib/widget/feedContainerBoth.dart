@@ -181,7 +181,7 @@ class _FeedContainerBothState extends State<FeedContainerBoth> {
                   radius: 20,
                   backgroundImage: _profilePictureURL != null
                       ? NetworkImage(_profilePictureURL!)
-                      : AssetImage('assets/profilePic.png') as ImageProvider,
+                      : AssetImage('assets/placeholder_image.png') as ImageProvider,
                 ),
                 SizedBox(width: 10),
                 Text(

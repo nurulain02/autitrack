@@ -93,7 +93,7 @@ flutter:
     - assets/parent.jpg
     - assets/educator.jpg
     - assets/forgot password.png
-    - assets/profilePic.png
+    - assets/placeholder_image.png
     - assets/feedback.jpg
     - lib/icons/
     - lib/images/
